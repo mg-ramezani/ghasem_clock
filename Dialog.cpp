@@ -21,7 +21,7 @@ void Dialog::on_pushButton_start_clicked()
 {
     using namespace std::chrono_literals;
 
-    if (ui->pushButton_start->text() == "Stop")
+    if (ui->pushButton_start->text() == "X")
     {
         is_over = true;
         is_pause = false;
@@ -33,7 +33,7 @@ void Dialog::on_pushButton_start_clicked()
     }
 
     std::thread([&]() {
-        ui->pushButton_start->setText("Stop");
+        ui->pushButton_start->setText("X");
 
         while (!is_over)
         {
@@ -66,7 +66,7 @@ void Dialog::on_pushButton_start_clicked()
             std::this_thread::sleep_for(1s);
         }
 
-        ui->pushButton_start->setText("Start");
+        ui->pushButton_start->setText("S");
     }).detach();
 }
 
