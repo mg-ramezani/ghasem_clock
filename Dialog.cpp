@@ -24,11 +24,12 @@ void Dialog::on_pushButton_start_clicked()
     if (ui->pushButton_start->text() == "Stop")
     {
         is_over = true;
+        is_pause = false;
         __clock = {};
     }
     else
     {
-        is_over = false;
+        is_over = is_pause = false;
     }
 
     std::thread([&]() {
@@ -62,7 +63,7 @@ void Dialog::on_pushButton_start_clicked()
             const QString t{QString("%1:%2:%3").arg(__clock.h).arg(__clock.m).arg(__clock.s)};
             ui->label_time->setText(t);
 
-            std::this_thread::sleep_for(10ms);
+            std::this_thread::sleep_for(1s);
         }
 
         ui->pushButton_start->setText("Start");
