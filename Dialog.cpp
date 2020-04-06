@@ -4,12 +4,31 @@
 #include <thread>
 #include <chrono>
 
+#include <QMessageBox>
+
+#include <iostream>
+
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Dialog)
+    , setting("ghasem")
 {
     ui->setupUi(this);
     setWindowTitle("ghasem-clock");
+
+    if (!setting.value("s").isNull())
+    {
+        const auto r{QMessageBox::question(this, "Reload ?", "Reload last time ?")};
+        if (r == QMessageBox::Yes)
+        {
+            __clock.s = setting.value("s").toUInt();
+            __clock.m = setting.value("m").toUInt();
+            __clock.h = setting.value("h").toUInt();
+
+            const QString t{QString("%1:%2:%3").arg(__clock.h).arg(__clock.m).arg(__clock.s)};
+            ui->label_time->setText(t);
+        }
+    }
 }
 
 Dialog::~Dialog()
@@ -62,6 +81,14 @@ void Dialog::on_pushButton_start_clicked()
 
             const QString t{QString("%1:%2:%3").arg(__clock.h).arg(__clock.m).arg(__clock.s)};
             ui->label_time->setText(t);
+
+            std::thread([&]() {
+                setting.setValue("s", QVariant::fromValue(__clock.s));
+                setting.setValue("m", QVariant::fromValue(__clock.m));
+                setting.setValue("h", QVariant::fromValue(__clock.h));
+
+                std::this_thread::sleep_for(1min);
+            }).detach();
 
             std::this_thread::sleep_for(1s);
         }

@@ -2,6 +2,7 @@
 #define DIALOG_H
 
 #include <QDialog>
+#include <QSettings>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -35,5 +36,6 @@ private:
     Ui::Dialog *ui;
     bool is_pause{false};
     bool is_over{false};
+    QSettings setting;
 };
 #endif // DIALOG_H
