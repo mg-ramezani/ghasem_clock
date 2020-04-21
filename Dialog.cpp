@@ -58,21 +58,21 @@ void Dialog::on_pushButton_start_clicked()
         {
             while (is_pause)
             {
-                std::this_thread::yield();
+                std::this_thread::sleep_for(500ms);
             }
 
             if (__clock.s != 59)
             {
                 __clock.s++;
             }
-            else if (__clock.s == 59)
+            else
             {
                 __clock.s = 0;
                 if (__clock.m != 59)
                 {
                     __clock.m++;
                 }
-                else if (__clock.m == 59)
+                else
                 {
                     __clock.m = 0;
                     __clock.h++;
